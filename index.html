@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hệ thống giám sát và tự động làm sạch tấm quang điện ứng dụng trí tuệ nhân tạo điều khiển bằng PLC</title>
+    <meta
+      name="description"
+      content="Website giới thiệu hệ thống giám sát và tự động làm sạch tấm quang điện ứng dụng trí tuệ nhân tạo, camera, FastAPI, mobile app và PLC Siemens S7."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="Hệ thống giám sát và tự động làm sạch tấm quang điện">
+        <img src="assets/logo-ctut.webp" alt="" />
+        <span>Smart Solar Cleaning</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" aria-label="Điều hướng chính">
+        <a href="#problem">Vấn đề</a>
+        <a href="#solution">Giải pháp</a>
+        <a href="#features">Tính năng</a>
+        <a href="#workflow">Quy trình</a>
+        <a href="#interfaces">Giao diện</a>
+        <a href="#tech">Công nghệ</a>
+        <a class="nav-cta" href="#contact">Liên hệ</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <img class="hero-bg" src="mo-hinh.jpg" alt="Mô hình hệ thống vệ sinh tấm pin mặt trời" />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow">AI Vision · PLC Control · Web & Mobile Monitor</p>
+          <h1 id="hero-title">Hệ thống giám sát và tự động làm sạch tấm quang điện ứng dụng trí tuệ nhân tạo điều khiển bằng PLC</h1>
+          <p class="hero-copy">
+            Ứng dụng camera, YOLO, EfficientNet-B0 và PLC Siemens S7 để phát hiện bụi bẩn,
+            vật cản và tự động kích hoạt cơ cấu vệ sinh.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#workflow">Xem quy trình</a>
+            <a class="btn secondary" href="#interfaces">Xem giao diện</a>
+          </div>
+          <div class="hero-highlights" aria-label="Điểm nổi bật của hệ thống">
+            <article>
+              <strong>AI nhận diện bề mặt</strong>
+              <span>Phân tích bụi bẩn và vật cản trên tấm quang điện</span>
+            </article>
+            <article>
+              <strong>Giám sát đa nền tảng</strong>
+              <span>Theo dõi qua desktop, web dashboard và mobile app</span>
+            </article>
+            <article>
+              <strong>Điều khiển bằng PLC</strong>
+              <span>Tự động gửi tín hiệu vệ sinh đến PLC Siemens S7</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro-strip" aria-label="Tóm tắt hệ thống">
+        <div class="container">
+          <div class="intro-grid">
+            <div>
+              <span class="section-kicker">Tổng quan</span>
+              <h2>Không chỉ nhận diện bằng AI,<br />hệ thống còn tự động vận hành và điều khiển vệ sinh.</h2>
+            </div>
+            <div class="intro-copy">
+              <p>
+                Desktop app đóng vai trò trung tâm xử lý: đọc camera, chạy AI, phân tích tình trạng
+                bề mặt tấm pin, quyết định khi nào cần vệ sinh và gửi tín hiệu đến PLC Siemens S7.
+              </p>
+              <p>
+                Web monitor và mobile app giúp người vận hành theo dõi trạng thái realtime,
+                xem snapshot, cấu hình ngưỡng bụi bẩn và điều khiển hệ thống từ xa.
+              </p>
+            </div>
+          </div>
+          <p class="overview-lead">Hệ thống được xây dựng từ 4 khối chính:</p>
+          <div class="overview-cards" aria-label="Thành phần chính của hệ thống">
+            <article>
+              <span class="overview-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M4 7.5h3.2L8.7 5h6.6l1.5 2.5H20a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2Z" />
+                  <circle cx="12" cy="14" r="3.5" />
+                </svg>
+              </span>
+              <strong>Camera</strong>
+              <span>Quan sát bề mặt tấm pin theo thời gian thực</span>
+            </article>
+            <article>
+              <span class="overview-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <rect x="7" y="7" width="10" height="10" rx="2" />
+                  <path d="M4 9h3M4 15h3M17 9h3M17 15h3M9 4v3M15 4v3M9 17v3M15 17v3" />
+                </svg>
+              </span>
+              <strong>AI Vision</strong>
+              <span>Nhận diện bụi bẩn, vật cản và tình trạng bề mặt</span>
+            </article>
+            <article>
+              <span class="overview-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M13 2 4 14h7l-1 8 10-13h-7l0-7Z" />
+                </svg>
+              </span>
+              <strong>PLC Control</strong>
+              <span>Gửi tín hiệu kích hoạt cơ cấu vệ sinh tự động</span>
+            </article>
+            <article>
+              <span class="overview-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <rect x="3" y="5" width="13" height="9" rx="1.8" />
+                  <rect x="18" y="8" width="3" height="8" rx="1" />
+                  <path d="M8 18h3M6 21h7M19.5 18h0" />
+                </svg>
+              </span>
+              <strong>Web/Mobile</strong>
+              <span>Giám sát, cấu hình và điều khiển từ xa</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="problem">
+        <div class="container split">
+          <div class="section-copy">
+            <span class="section-kicker">Vấn đề thực tế</span>
+            <h2>Bụi bẩn và vật cản làm giảm hiệu suất nhưng khó kiểm tra liên tục.</h2>
+            <p>
+              Tấm pin hoạt động ngoài trời thường gặp bụi, lá cây, phân chim, nước đọng hoặc bóng che.
+              Nếu chỉ vệ sinh thủ công, người vận hành khó biết chính xác thời điểm nào cần can thiệp.
+            </p>
+          </div>
+          <div class="issue-list">
+            <article>
+              <strong>Giảm công suất phát điện</strong>
+              <span>Bề mặt bám bẩn làm giảm lượng ánh sáng đến cell quang điện.</span>
+            </article>
+            <article>
+              <strong>Tốn nhân lực kiểm tra</strong>
+              <span>Việc quan sát thủ công không phù hợp khi số lượng tấm pin lớn.</span>
+            </article>
+            <article>
+              <strong>Khó phát hiện vùng bẩn cục bộ</strong>
+              <span>Một vùng nhỏ bị che phủ vẫn có thể ảnh hưởng đến hiệu suất.</span>
+            </article>
+            <article>
+              <strong>Thiếu dữ liệu đối chiếu</strong>
+              <span>Không có snapshot thì khó báo cáo và đánh giá tình trạng theo thời gian.</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section muted" id="solution">
+        <div class="container solution-layout">
+          <div class="solution-media">
+            <img src="assets/yolo-result.jpg" alt="Kết quả AI nhận diện trên ảnh tấm pin" />
+          </div>
+          <div class="section-copy">
+            <span class="section-kicker">Giải pháp</span>
+            <h2>Camera quan sát, AI phân tích, PLC điều khiển, giao diện giám sát từ xa.</h2>
+            <p>
+              Hệ thống tự động ghi nhận hình ảnh, phát hiện vùng tấm pin bằng YOLOv8-Seg, phân loại
+              32 vùng nhỏ bằng EfficientNet-B0 và gửi bit điều khiển đến PLC khi cần vệ sinh.
+            </p>
+            <div class="pipeline">
+              <span>Camera</span>
+              <span>AI</span>
+              <span>Quyết định</span>
+              <span>PLC</span>
+              <span>Vệ sinh</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-kicker">Tính năng nổi bật</span>
+            <h2>Đủ các khối cần thiết cho một hệ thống vận hành thật.</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <span class="feature-icon">AI</span>
+              <h3>Nhận diện bụi bẩn</h3>
+              <p>Phân loại từng patch thành `sach` hoặc `ban`, tính tỷ lệ bẩn trên bề mặt tấm pin.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">SEG</span>
+              <h3>Phát hiện vùng tấm pin</h3>
+              <p>YOLOv8-Seg giúp crop đúng vùng cần phân tích và bỏ qua trường hợp không có tấm pin.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">OBJ</span>
+              <h3>Phát hiện vật cản</h3>
+              <p>YOLO Detect nhận diện lá cây, phân chim và các đối tượng ảnh hưởng đến bề mặt pin.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">PLC</span>
+              <h3>Điều khiển PLC</h3>
+              <p>Gửi tín hiệu đến PLC Siemens S7 qua Snap7 để kích hoạt cơ cấu vệ sinh tự động.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">LIVE</span>
+              <h3>Giám sát realtime</h3>
+              <p>WebSocket cập nhật trạng thái AI, PLC, FPS, snapshot và số lần vệ sinh.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon">CFG</span>
+              <h3>Cấu hình linh hoạt</h3>
+              <p>Điều chỉnh camera, PLC IP, chu kỳ snapshot, ngưỡng bẩn và thao tác vệ sinh thủ công.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section muted" id="workflow">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-kicker">Quy trình hoạt động</span>
+            <h2>Từ một khung hình camera đến lệnh vệ sinh PLC.</h2>
+          </div>
+          <figure class="workflow-diagram">
+            <img src="so-do-he-thong.jpg" alt="Sơ đồ tổng thể hệ thống camera, Python, PLC, dashboard và thiết bị vệ sinh" />
+            <figcaption>Sơ đồ tổng thể các khối xử lý, điều khiển và giám sát trong hệ thống.</figcaption>
+          </figure>
+          <div class="workflow">
+            <article>
+              <span>01</span>
+              <h3>Camera ghi nhận hình ảnh</h3>
+              <p>Frame được chuẩn hóa hướng ảnh và lưu snapshot theo chu kỳ.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>YOLO-Seg tìm tấm pin</h3>
+              <p>Hệ thống xác định vùng tấm pin, crop và tự xoay về portrait nếu cần.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>CNN chia 32 patch</h3>
+              <p>EfficientNet-B0 phân loại từng vùng nhỏ để tính tỷ lệ bẩn.</p>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>YOLO Detect vật cản</h3>
+              <p>Phát hiện lá cây, phân chim và các đối tượng cần xử lý nhanh.</p>
+            </article>
+            <article>
+              <span>05</span>
+              <h3>Ra quyết định vệ sinh</h3>
+              <p>So sánh ngưỡng, lọc nhiễu và kiểm tra cooldown trước khi kích PLC.</p>
+            </article>
+            <article>
+              <span>06</span>
+              <h3>Cập nhật giao diện</h3>
+              <p>Desktop, web và mobile nhận trạng thái mới để người vận hành theo dõi.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="interfaces">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-kicker">Giao diện hệ thống</span>
+            <h2>Một lõi điều khiển, nhiều màn hình giám sát.</h2>
+          </div>
+
+          <div class="tabs" role="tablist" aria-label="Giao diện">
+            <button class="tab active" type="button" data-tab="desktop">Desktop</button>
+            <button class="tab" type="button" data-tab="web">Web monitor</button>
+            <button class="tab" type="button" data-tab="mobile">Mobile app</button>
+          </div>
+
+          <div class="interface-panel active" id="desktop">
+            <img src="desktop.jpg" alt="Giao diện desktop của hệ thống" />
+            <div>
+              <h3>Desktop app</h3>
+              <p>
+                Ứng dụng Tkinter là trung tâm vận hành: tải model, đọc camera, chạy AI, kết nối PLC,
+                quản lý tài khoản, cài ngưỡng và lưu snapshot.
+              </p>
+              <ul>
+                <li>Start/stop giám sát</li>
+                <li>Manual clean và reconnect PLC</li>
+                <li>Hiển thị kết quả AI theo từng lần snapshot</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="interface-panel" id="web">
+            <img src="web.jpg" alt="Giao diện web monitor của hệ thống" />
+            <div>
+              <h3>Web monitor</h3>
+              <p>
+                Dashboard FastAPI hiển thị trạng thái hệ thống trên trình duyệt, hỗ trợ API REST,
+                WebSocket và các thao tác điều khiển từ xa.
+              </p>
+              <ul>
+                <li>Xem frame hiện tại và snapshot</li>
+                <li>Cấu hình camera, PLC IP, ngưỡng bẩn</li>
+                <li>Quản lý tài khoản đăng ký</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="interface-panel" id="mobile">
+            <img src="mobile.jpg" alt="Giao diện mobile app của hệ thống" />
+            <div>
+              <h3>Mobile app</h3>
+              <p>
+                App React Native / Expo giúp theo dõi trạng thái realtime, xem ảnh, điều khiển start/stop
+                và gửi lệnh vệ sinh thủ công ngay trên điện thoại.
+              </p>
+              <ul>
+                <li>WebSocket kèm polling dự phòng</li>
+                <li>Hiển thị KPI CNN, PLC, FPS và số lần vệ sinh</li>
+                <li>Điều chỉnh chu kỳ snapshot và ngưỡng bẩn</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section muted" id="benefits">
+        <div class="container benefit-layout">
+          <div class="section-copy">
+            <span class="section-kicker">Lợi ích</span>
+            <h2>Vệ sinh theo tình trạng thực tế, giám sát được bằng dữ liệu.</h2>
+            <p>
+              Hệ thống giúp người vận hành chủ động hơn: biết lúc nào cần vệ sinh, có hình ảnh để đối
+              chiếu và giảm thao tác kiểm tra lặp lại.
+            </p>
+          </div>
+          <div class="benefit-grid">
+            <span>Giảm kiểm tra thủ công</span>
+            <span>Hạn chế bỏ sót vùng bẩn</span>
+            <span>Lưu bằng chứng snapshot</span>
+            <span>Giám sát qua web/mobile</span>
+            <span>Chủ động bảo trì</span>
+            <span>Dễ mở rộng nhiều cụm pin</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="applications">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-kicker">Ứng dụng thực tế</span>
+            <h2>Phù hợp cho mô hình nghiên cứu, đào tạo và triển khai thử nghiệm.</h2>
+          </div>
+          <div class="application-grid">
+            <article>Hệ thống điện mặt trời áp mái</article>
+            <article>Trang trại điện mặt trời</article>
+            <article>Nhà máy và khu công nghiệp</article>
+            <article>Trường học, phòng lab tự động hóa</article>
+            <article>Hộ gia đình có hệ thống solar</article>
+            <article>Demo tích hợp AI, camera và PLC</article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section muted" id="tech">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-kicker">Công nghệ sử dụng</span>
+            <h2>Kiến trúc phần mềm và điều khiển đã có đủ các tầng chính.</h2>
+          </div>
+          <div class="tech-grid">
+            <article>
+              <h3>AI & xử lý ảnh</h3>
+              <p>EfficientNet-B0, YOLOv8-Seg, YOLO Detect, TensorFlow/Keras, Ultralytics, OpenCV.</p>
+            </article>
+            <article>
+              <h3>Điều khiển</h3>
+              <p>PLC Siemens S7, Snap7, DB bit, trigger theo bụi bẩn, lá cây và phân chim.</p>
+            </article>
+            <article>
+              <h3>Phần mềm</h3>
+              <p>Python, Tkinter, FastAPI, REST API, WebSocket, React Native / Expo.</p>
+            </article>
+            <article>
+              <h3>Triển khai</h3>
+              <p>PyInstaller cho desktop, APK Android cho mobile, snapshot và log runtime.</p>
+            </article>
+          </div>
+
+          <div class="spec-table" aria-label="Thông số hệ thống">
+            <div><span>AI chính</span><strong>EfficientNet-B0</strong></div>
+            <div><span>Phát hiện tấm pin</span><strong>YOLOv8-Seg</strong></div>
+            <div><span>Số vùng phân tích</span><strong>32 patch</strong></div>
+            <div><span>Kích thước patch</span><strong>224 x 224</strong></div>
+            <div><span>PLC</span><strong>Siemens S7</strong></div>
+            <div><span>Backend</span><strong>FastAPI</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section roadmap" id="roadmap">
+        <div class="container split">
+          <div class="section-copy">
+            <span class="section-kicker">Lộ trình phát triển</span>
+            <h2>Các bước để biến bản demo kỹ thuật thành sản phẩm hoàn chỉnh hơn.</h2>
+          </div>
+          <ol class="roadmap-list">
+            <li>Thu thêm dữ liệu thực tế để đánh giá precision, recall và F1-score.</li>
+            <li>Lưu lịch sử sự kiện vào SQLite/JSON có cấu trúc.</li>
+            <li>Bổ sung cảnh báo nứt/vỡ và thông báo mobile.</li>
+            <li>Tối ưu giao diện dashboard cho báo cáo vận hành.</li>
+            <li>Mở rộng nhiều camera và nhiều cụm tấm pin.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="cta-section" id="contact">
+        <div class="container cta-content">
+          <span class="section-kicker">Sẵn sàng xem demo?</span>
+          <h2>Giới thiệu hệ thống giám sát và tự động làm sạch tấm quang điện cho đồ án, nghiên cứu hoặc triển khai thử nghiệm.</h2>
+          <p>
+            Có thể trình bày sản phẩm bằng hình ảnh thực tế, mô phỏng luồng AI và demo điều khiển PLC
+            trực tiếp.
+          </p>
+          <p class="contact-inline">
+            Email liên hệ:
+            <a href="mailto:smartsolarcleaning.ctut@gmail.com">smartsolarcleaning.ctut@gmail.com</a>
+          </p>
+          <div class="hero-actions">
+            <a
+              class="btn primary"
+              href="https://www.facebook.com/profile.php?id=61588801080079&amp;rdid=sHGWGTaqxgeW97vW&amp;share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18cyT963zT%2F#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Liên hệ qua Facebook</a
+            >
+            <a class="btn secondary" href="tai-lieu-du-an.md" target="_blank" rel="noopener noreferrer">Xem tài liệu dự án</a>
+            <a
+              class="btn secondary"
+              href="https://drive.google.com/drive/folders/1b39gcrIV2Yl4zJhpcGThaDxLjdHWGGzy?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Tải app mobile</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand" href="#top">
+            <img src="assets/logo-ctut.webp" alt="" />
+            <span>Smart Solar Cleaning</span>
+          </a>
+          <p>Hệ thống giám sát và tự động làm sạch tấm quang điện dùng AI, camera và PLC Siemens S7.</p>
+        </div>
+        <nav aria-label="Liên kết cuối trang">
+          <a href="#solution">Giải pháp</a>
+          <a href="#features">Tính năng</a>
+          <a href="#interfaces">Giao diện</a>
+          <a href="#tech">Công nghệ</a>
+        </nav>
+        <div class="footer-contact">
+          <span>Demo sản phẩm</span>
+          <strong>Smart Solar Cleaning</strong>
+          <span>Desktop · Web · Mobile · PLC</span>
+          <a class="footer-link" href="mailto:smartsolarcleaning.ctut@gmail.com">smartsolarcleaning.ctut@gmail.com</a>
+          <a
+            class="footer-link"
+            href="https://drive.google.com/drive/folders/1b39gcrIV2Yl4zJhpcGThaDxLjdHWGGzy?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Tải app mobile</a
+          >
+          <a
+            class="footer-link"
+            href="https://www.facebook.com/profile.php?id=61588801080079&amp;rdid=sHGWGTaqxgeW97vW&amp;share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18cyT963zT%2F#"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Trang Facebook</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
