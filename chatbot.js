@@ -141,6 +141,72 @@ if (chatbotRoot) {
     ],
   };
 
+  const CONCEPT_GUIDES = [
+    {
+      id: "cnn",
+      aliases: ["cnn", "convolutional neural network"],
+      answer:
+        "CNN là mô hình AI dùng để phân loại ảnh. Trong dự án này, CNN được dựng theo kiến trúc EfficientNet-B0 và dùng để chia vùng tấm pin thành 32 patch, rồi phân loại từng patch là `sạch` hoặc `bẩn`.",
+      sourceHints: ["Model phân loại sạch/bẩn bằng EfficientNet-B0", "Chia patch và tính tỷ lệ bẩn"],
+    },
+    {
+      id: "efficientnet",
+      aliases: ["efficientnet", "efficientnet-b0", "efficientnet b0"],
+      answer:
+        "EfficientNet-B0 là kiến trúc CNN chính của dự án. Nó nhận từng patch ảnh kích thước `224 x 224`, sau đó dự đoán patch đó là `sạch` hay `bẩn` bằng trọng số `buiban.h5`.",
+      sourceHints: ["Model phân loại sạch/bẩn bằng EfficientNet-B0", "Chia patch và tính tỷ lệ bẩn"],
+    },
+    {
+      id: "yolo_seg",
+      aliases: ["yolo-seg", "yolov8-seg", "yolo seg", "panel 2.pt"],
+      answer:
+        "YOLOv8-Seg là model dùng để tìm đúng vùng tấm pin trong ảnh trước khi chạy CNN. Nói ngắn gọn: YOLOv8-Seg giúp hệ thống biết phần nào của khung hình thực sự là tấm pin để crop và phân tích chính xác hơn.",
+      sourceHints: ["Model phát hiện tấm pin bằng YOLOv8-Seg"],
+    },
+    {
+      id: "yolo_detect",
+      aliases: ["yolo", "yolo detect", "yolov8", "solar.pt"],
+      answer:
+        "Trong dự án này, YOLO Detect dùng để phát hiện vật cản hoặc lỗi bề mặt như `lá cây` và `phân chim`. Nó là nhánh bổ sung bên cạnh CNN, giúp hệ thống quyết định vệ sinh ngay cả khi vật cản không hiện ra đơn thuần như bụi đều trên bề mặt.",
+      sourceHints: ["YOLO Detect cho vật cản và lỗi bề mặt", "Điều kiện quyết định vệ sinh"],
+    },
+    {
+      id: "plc",
+      aliases: ["plc", "siemens s7", "snap7"],
+      answer:
+        "PLC là bộ điều khiển chấp hành của hệ thống. AI và YOLO dùng để nhận biết khi nào cần vệ sinh, còn PLC Siemens S7 nhận bit điều khiển từ phần mềm để kích hoạt cơ cấu vệ sinh thực tế.",
+      sourceHints: ["Điều khiển PLC Siemens S7", "Điều kiện quyết định vệ sinh"],
+    },
+    {
+      id: "fastapi",
+      aliases: ["fastapi", "web monitor", "api"],
+      answer:
+        "FastAPI là backend web của hệ thống giám sát. Nó cung cấp API, WebSocket, frame preview, trạng thái realtime và các thao tác như đổi cấu hình, reconnect PLC hoặc xem snapshot.",
+      sourceHints: ["Web monitor FastAPI", "API chính cho web/mobile"],
+    },
+    {
+      id: "react_native",
+      aliases: ["react native", "expo", "mobile app", "app mobile"],
+      answer:
+        "React Native / Expo là nền tảng dùng để xây dựng ứng dụng mobile của dự án. App này giúp theo dõi trạng thái hệ thống, xem ảnh debug, snapshot và thao tác điều khiển từ điện thoại.",
+      sourceHints: ["Ứng dụng mobile React Native / Expo"],
+    },
+    {
+      id: "snapshot",
+      aliases: ["snapshot", "ảnh snapshot", "anh snapshot"],
+      answer:
+        "Snapshot là ảnh hệ thống lưu định kỳ trong quá trình vận hành. Nó được dùng để đối chiếu kết quả AI, làm bằng chứng vận hành và hỗ trợ kiểm tra hoặc báo cáo sau này.",
+      sourceHints: ["Chế độ snapshot và xử lý định kỳ"],
+    },
+    {
+      id: "patch",
+      aliases: ["patch", "32 patch", "o nho"],
+      answer:
+        "Patch là các ô ảnh nhỏ mà hệ thống cắt ra từ vùng tấm pin sau khi crop. Dự án chia vùng tấm pin thành `8 hàng x 4 cột = 32 patch`, rồi dùng CNN để đánh giá từng patch sạch hay bẩn.",
+      sourceHints: ["Chia patch và tính tỷ lệ bẩn"],
+    },
+  ];
+
   function normalizeText(value) {
     return String(value || "")
       .replace(/\u0110/g, "D")
@@ -426,6 +492,30 @@ if (chatbotRoot) {
     return null;
   }
 
+  function findConceptGuide(question) {
+    const normalizedQuestion = normalizeText(question);
+    const compactQuestion = normalizedQuestion.replace(/\s+/g, " ").trim();
+
+    return CONCEPT_GUIDES.find((guide) =>
+      guide.aliases.some((alias) => compactQuestion.includes(normalizeText(alias)))
+    ) || null;
+  }
+
+  function buildConceptAnswer(question) {
+    const guide = findConceptGuide(question);
+    if (!guide) {
+      return null;
+    }
+
+    return {
+      text: guide.answer,
+      sources: guide.sourceHints
+        .map((hint) => findSectionByHint([hint]))
+        .filter(Boolean)
+        .map((section) => section.title),
+    };
+  }
+
   function identifyIntent(question) {
     const normalizedQuestion = normalizeText(question);
     const tokens = tokenize(question);
@@ -582,6 +672,11 @@ if (chatbotRoot) {
 
     if (GREETING_PATTERNS.some((pattern) => normalizedQuestion.startsWith(pattern))) {
       return buildGreetingAnswer();
+    }
+
+    const conceptAnswer = buildConceptAnswer(question);
+    if (conceptAnswer) {
+      return conceptAnswer;
     }
 
     const intent = identifyIntent(question);
