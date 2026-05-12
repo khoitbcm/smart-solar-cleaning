@@ -513,6 +513,50 @@
       </div>
     </footer>
 
+    <div class="chatbot-shell" data-chatbot>
+      <button class="chatbot-launcher" type="button" aria-expanded="false" aria-controls="chatbot-panel">
+        <span class="chatbot-launcher-dot" aria-hidden="true"></span>
+        <span>Hoi ve du an</span>
+      </button>
+
+      <section class="chatbot-panel" id="chatbot-panel" aria-label="Chatbot gioi thieu du an" hidden>
+        <header class="chatbot-header">
+          <div>
+            <p class="chatbot-eyebrow">Smart Solar Cleaning</p>
+            <h2>Tro ly gioi thieu du an</h2>
+          </div>
+          <button class="chatbot-close" type="button" aria-label="Dong chatbot">Dong</button>
+        </header>
+
+        <div class="chatbot-status" data-chatbot-status>
+          Dang nap tai lieu du an...
+        </div>
+
+        <div class="chatbot-messages" data-chatbot-messages aria-live="polite"></div>
+
+        <div class="chatbot-suggestions" data-chatbot-suggestions>
+          <button type="button" class="chatbot-chip">Du an nay lam gi?</button>
+          <button type="button" class="chatbot-chip">Cong nghe nao dang dung?</button>
+          <button type="button" class="chatbot-chip">PLC co vai tro gi?</button>
+          <button type="button" class="chatbot-chip">He thong hoat dong nhu the nao?</button>
+        </div>
+
+        <form class="chatbot-form" data-chatbot-form>
+          <label class="sr-only" for="chatbot-input">Nhap cau hoi</label>
+          <textarea
+            id="chatbot-input"
+            class="chatbot-input"
+            data-chatbot-input
+            rows="3"
+            maxlength="400"
+            placeholder="Nhap cau hoi ve du an, AI, PLC, mobile app..."
+          ></textarea>
+          <button class="chatbot-send" type="submit">Gui</button>
+        </form>
+      </section>
+    </div>
+
     <script src="script.js"></script>
+    <script src="chatbot.js"></script>
   </body>
 </html>

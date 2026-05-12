@@ -11,6 +11,7 @@ website/
 |- index.html
 |- styles.css
 |- script.js
+|- chatbot.js
 |- mo-hinh.jpg
 |- so-do-he-thong.jpg
 |- desktop.jpg
@@ -53,3 +54,4 @@ Sau khi GitHub build xong, website se chay tren URL GitHub Pages cua repo.
 - Website la site tinh, khong can build.
 - Tat ca anh va tai lieu da duoc dua vao cung thu muc de tranh loi link khi deploy.
 - Cac file anh da duoc doi sang ten ASCII de on dinh hon tren GitHub Pages.
+- Chatbot tren website chay hoan toan phia client, doc `tai-lieu-du-an.md` de tra loi va khong can backend rieng.
