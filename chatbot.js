@@ -88,6 +88,59 @@ if (chatbotRoot) {
     },
   ];
 
+  const QUERY_EXPANSIONS = {
+    bui: ["ban", "dirty", "cnn", "efficientnet"],
+    ban: ["bui", "dirty", "cnn", "efficientnet"],
+    nhan: ["phan", "loai", "phat", "hien", "ai"],
+    biet: ["phan", "loai", "phat", "hien", "ai"],
+    phat: ["hien", "yolo", "ai"],
+    hien: ["phat", "yolo", "ai"],
+    dung: ["cong", "nghe", "model", "ai"],
+    cong: ["nghe", "ai", "model"],
+    nghe: ["cong", "ai", "model"],
+    tam: ["pin", "panel", "yolo"],
+    pin: ["tam", "panel", "yolo"],
+    ve: ["sinh", "plc", "trigger"],
+    sinh: ["ve", "plc", "trigger"],
+    plc: ["snap7", "siemens", "trigger"],
+  };
+
+  const INTENT_PATTERNS = {
+    dirty_detection: [
+      "nhan biet bui",
+      "nhan biet ban",
+      "phat hien bui",
+      "phat hien ban",
+      "phan loai sach ban",
+      "dung gi de nhan biet",
+      "dung gi de phat hien",
+    ],
+    technology: [
+      "cong nghe nao",
+      "dung cong nghe gi",
+      "dung gi",
+      "mo hinh nao",
+      "model nao",
+    ],
+    workflow: [
+      "hoat dong nhu the nao",
+      "quy trinh hoat dong",
+      "van hanh nhu the nao",
+      "xu ly nhu the nao",
+    ],
+    plc: [
+      "plc co vai tro gi",
+      "plc dung de lam gi",
+      "plc la gi",
+    ],
+    interfaces: [
+      "web va mobile",
+      "desktop web mobile",
+      "giao dien nao",
+      "ung dung mobile",
+    ],
+  };
+
   function normalizeText(value) {
     return String(value || "")
       .replace(/\u0110/g, "D")
@@ -108,6 +161,21 @@ if (chatbotRoot) {
     return normalizeText(value)
       .split(/[^a-z0-9]+/i)
       .filter((token) => token.length > 1 && !STOP_WORDS.has(token));
+  }
+
+  function expandTokens(tokens) {
+    const expanded = [...tokens];
+
+    tokens.forEach((token) => {
+      const aliases = QUERY_EXPANSIONS[token] || [];
+      aliases.forEach((alias) => {
+        if (!expanded.includes(alias) && !STOP_WORDS.has(alias)) {
+          expanded.push(alias);
+        }
+      });
+    });
+
+    return expanded;
   }
 
   function cleanMarkdown(value) {
@@ -273,6 +341,21 @@ if (chatbotRoot) {
       }
     });
 
+    if (
+      hasAnyPhrase(normalizedQuestion, INTENT_PATTERNS.dirty_detection) ||
+      (questionTokens.includes("bui") || questionTokens.includes("ban")) &&
+      (questionTokens.includes("nhan") || questionTokens.includes("biet") || questionTokens.includes("phat"))
+    ) {
+      return { ...TOPIC_PROFILES.find((profile) => profile.id === "technology"), score: 999 };
+    }
+
+    if (
+      hasAnyPhrase(normalizedQuestion, INTENT_PATTERNS.technology) &&
+      (questionTokens.includes("nhan") || questionTokens.includes("biet") || questionTokens.includes("phat"))
+    ) {
+      return { ...TOPIC_PROFILES.find((profile) => profile.id === "technology"), score: 998 };
+    }
+
     return bestProfile && bestProfile.score > 0 ? bestProfile : null;
   }
 
@@ -315,7 +398,7 @@ if (chatbotRoot) {
   }
 
   function findBestSections(question, profile) {
-    const queryTokens = tokenize(question);
+    const queryTokens = expandTokens(tokenize(question));
 
     return knowledgeState.sections
       .map((section) => ({
@@ -325,6 +408,125 @@ if (chatbotRoot) {
       .filter((section) => section.score > 0)
       .sort((left, right) => right.score - left.score)
       .slice(0, 3);
+  }
+
+  function hasAnyPhrase(text, phrases) {
+    return phrases.some((phrase) => text.includes(normalizeText(phrase)));
+  }
+
+  function findSectionByHint(hints) {
+    for (const hint of hints) {
+      const normalizedHint = normalizeText(hint);
+      const match = knowledgeState.sections.find((section) => section.normTitle.includes(normalizedHint));
+      if (match) {
+        return match;
+      }
+    }
+
+    return null;
+  }
+
+  function identifyIntent(question) {
+    const normalizedQuestion = normalizeText(question);
+    const tokens = tokenize(question);
+
+    if (
+      hasAnyPhrase(normalizedQuestion, INTENT_PATTERNS.dirty_detection) ||
+      ((tokens.includes("bui") || tokens.includes("ban")) &&
+        (tokens.includes("nhan") || tokens.includes("biet") || tokens.includes("phat")))
+    ) {
+      return "dirty_detection";
+    }
+
+    if (normalizedQuestion.includes("plc")) {
+      return "plc";
+    }
+
+    if (hasAnyPhrase(normalizedQuestion, INTENT_PATTERNS.workflow)) {
+      return "workflow";
+    }
+
+    if (hasAnyPhrase(normalizedQuestion, INTENT_PATTERNS.interfaces)) {
+      return "interfaces";
+    }
+
+    if (hasAnyPhrase(normalizedQuestion, INTENT_PATTERNS.technology)) {
+      return "technology";
+    }
+
+    return null;
+  }
+
+  function buildIntentAnswer(intent) {
+    if (intent === "dirty_detection") {
+      const sectionSeg = findSectionByHint(["Model phát hiện tấm pin bằng YOLOv8-Seg"]);
+      const sectionCnn = findSectionByHint(["Model phân loại sạch/bẩn bằng EfficientNet-B0"]);
+      const sectionPatch = findSectionByHint(["Chia patch và tính tỷ lệ bẩn"]);
+      const sectionDecision = findSectionByHint(["Điều kiện quyết định vệ sinh"]);
+
+      return {
+        text:
+          "Để nhận biết bụi bẩn, hệ thống không dùng một bước duy nhất mà đi theo chuỗi xử lý này:\n" +
+          "- Camera chụp ảnh bề mặt tấm pin.\n" +
+          "- YOLOv8-Seg (`panel 2.pt`) tìm đúng vùng tấm pin trước khi phân tích.\n" +
+          "- CNN EfficientNet-B0 với trọng số `buiban.h5` chia vùng tấm pin thành 32 patch và phân loại từng patch là `sạch` hoặc `bẩn`.\n" +
+          "- Tỷ lệ bẩn được tính từ số patch bẩn trên tổng 32 patch.\n" +
+          "- Sau đó hệ thống so với ngưỡng `DIRT_AREA_THRESHOLD` để quyết định có kích hoạt vệ sinh hay không.",
+        sources: [sectionSeg, sectionCnn, sectionPatch, sectionDecision]
+          .filter(Boolean)
+          .map((section) => section.title),
+      };
+    }
+
+    if (intent === "plc") {
+      const sectionPlc = findSectionByHint(["Điều khiển PLC Siemens S7"]);
+      const sectionDecision = findSectionByHint(["Điều kiện quyết định vệ sinh"]);
+
+      return {
+        text:
+          "PLC là khối điều khiển chấp hành của hệ thống.\n" +
+          "- AI và YOLO dùng để phát hiện khi nào cần vệ sinh.\n" +
+          "- Khi đủ điều kiện, phần mềm gửi bit điều khiển qua Snap7 đến PLC Siemens S7.\n" +
+          "- PLC sau đó kích hoạt cơ cấu vệ sinh thực tế.\n" +
+          "- Hệ thống cũng có nhánh vệ sinh thủ công từ giao diện nhưng vẫn đi qua PLC.",
+        sources: [sectionPlc, sectionDecision].filter(Boolean).map((section) => section.title),
+      };
+    }
+
+    if (intent === "workflow") {
+      const sectionFlow = findSectionByHint(["Kiến trúc vận hành tổng quát"]);
+      const sectionPatch = findSectionByHint(["Chia patch và tính tỷ lệ bẩn"]);
+      const sectionDecision = findSectionByHint(["Điều kiện quyết định vệ sinh"]);
+
+      return {
+        text:
+          "Quy trình hoạt động của hệ thống diễn ra theo các bước chính:\n" +
+          "- Camera lấy ảnh bề mặt tấm pin.\n" +
+          "- YOLOv8-Seg tìm vùng tấm pin để crop đúng khu vực cần phân tích.\n" +
+          "- CNN EfficientNet-B0 phân loại 32 patch thành sạch hoặc bẩn.\n" +
+          "- YOLO Detect kiểm tra thêm vật cản như lá cây hoặc phân chim.\n" +
+          "- Nếu đủ điều kiện, hệ thống gửi lệnh sang PLC để thực hiện vệ sinh.",
+        sources: [sectionFlow, sectionPatch, sectionDecision].filter(Boolean).map((section) => section.title),
+      };
+    }
+
+    if (intent === "interfaces") {
+      const sectionDesktop = findSectionByHint(["Giao diện desktop"]);
+      const sectionWeb = findSectionByHint(["Web monitor FastAPI"]);
+      const sectionMobile = findSectionByHint(["Ứng dụng mobile React Native / Expo"]);
+
+      return {
+        text:
+          "Dự án có 3 lớp giao diện chính:\n" +
+          "- Desktop app là trung tâm xử lý camera, AI, YOLO và PLC.\n" +
+          "- Web monitor dùng để xem trạng thái realtime, frame, snapshot và cấu hình từ xa.\n" +
+          "- Mobile app giúp theo dõi và thao tác từ điện thoại.\n" +
+          "Nói ngắn gọn: desktop xử lý chính, còn web và mobile là lớp giám sát/điều khiển từ xa.",
+        sources: [sectionDesktop, sectionWeb, sectionMobile].filter(Boolean).map((section) => section.title),
+      };
+    }
+
+    return null;
   }
 
   function buildGreetingAnswer() {
@@ -380,6 +582,12 @@ if (chatbotRoot) {
 
     if (GREETING_PATTERNS.some((pattern) => normalizedQuestion.startsWith(pattern))) {
       return buildGreetingAnswer();
+    }
+
+    const intent = identifyIntent(question);
+    const intentAnswer = buildIntentAnswer(intent);
+    if (intentAnswer) {
+      return intentAnswer;
     }
 
     const profile = findTopicProfile(question, questionTokens);
