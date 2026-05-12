@@ -31,13 +31,13 @@ if (chatbotRoot) {
   const TOPIC_PROFILES = [
     {
       id: "overview",
-      lead: "Tom tat nhanh ve du an:",
+      lead: "Tóm tắt nhanh về dự án:",
       keywords: ["du an", "san pham", "he thong", "tong quan", "muc tieu", "gioi thieu"],
       titleHints: ["ten de tai", "boi canh", "muc tieu du an", "ket luan"],
     },
     {
       id: "technology",
-      lead: "Cong nghe chinh dang duoc su dung:",
+      lead: "Công nghệ chính đang được sử dụng:",
       keywords: ["cong nghe", "ai", "yolo", "efficientnet", "cnn", "camera", "model"],
       titleHints: [
         "model phat hien tam pin",
@@ -48,7 +48,7 @@ if (chatbotRoot) {
     },
     {
       id: "workflow",
-      lead: "Quy trinh hoat dong cua he thong:",
+      lead: "Quy trình hoạt động của hệ thống:",
       keywords: ["quy trinh", "hoat dong", "van hanh", "luong xu ly", "cac buoc", "workflow"],
       titleHints: [
         "kien truc van hanh tong quat",
@@ -59,13 +59,13 @@ if (chatbotRoot) {
     },
     {
       id: "plc",
-      lead: "Vai tro cua PLC trong du an:",
+      lead: "Vai trò của PLC trong dự án:",
       keywords: ["plc", "siemens", "snap7", "dieu khien", "ve sinh", "trigger"],
       titleHints: ["dieu khien plc siemens s7", "dieu kien quyet dinh ve sinh"],
     },
     {
       id: "interfaces",
-      lead: "Cac giao dien va kenh giam sat:",
+      lead: "Các giao diện và kênh giám sát:",
       keywords: ["web", "mobile", "desktop", "fastapi", "react native", "expo", "giao dien"],
       titleHints: [
         "giao dien desktop",
@@ -76,13 +76,13 @@ if (chatbotRoot) {
     },
     {
       id: "strengths",
-      lead: "Diem manh noi bat cua du an:",
+      lead: "Điểm mạnh nổi bật của dự án:",
       keywords: ["diem manh", "uu diem", "loi ich", "gia tri", "noi bat"],
       titleHints: ["diem manh cua du an", "muc tieu du an", "ket luan"],
     },
     {
       id: "limitations",
-      lead: "Nhung gioi han va diem can chu y:",
+      lead: "Những giới hạn và điểm cần chú ý:",
       keywords: ["han che", "nhuoc diem", "rui ro", "luu y", "gioi han"],
       titleHints: ["han che va diem can chu y", "de xuat cai tien tiep theo"],
     },
@@ -220,27 +220,27 @@ if (chatbotRoot) {
     }
 
     knowledgeState.loading = true;
-    setStatus("Dang nap tai lieu du an...");
+    setStatus("Đang nạp tài liệu dự án...");
     updateControls();
 
     try {
       const response = await fetch("tai-lieu-du-an.md", { cache: "no-store" });
 
       if (!response.ok) {
-        throw new Error(`Khong doc duoc tai lieu (${response.status})`);
+        throw new Error(`Không đọc được tài liệu (${response.status})`);
       }
 
       const markdown = await response.text();
       knowledgeState.sections = parseMarkdownSections(markdown);
       knowledgeState.ready = knowledgeState.sections.length > 0;
-      knowledgeState.error = knowledgeState.ready ? "" : "Tai lieu khong co noi dung de tra cuu.";
+      knowledgeState.error = knowledgeState.ready ? "" : "Tài liệu không có nội dung để tra cứu.";
       setStatus(
         knowledgeState.ready
-          ? "San sang tra loi tu tai lieu du an tren website."
+          ? "Sẵn sàng trả lời từ tài liệu dự án trên website."
           : knowledgeState.error
       );
     } catch (error) {
-      knowledgeState.error = error instanceof Error ? error.message : "Khong the nap tai lieu du an.";
+      knowledgeState.error = error instanceof Error ? error.message : "Không thể nạp tài liệu dự án.";
       setStatus(knowledgeState.error);
     } finally {
       knowledgeState.loading = false;
@@ -330,12 +330,12 @@ if (chatbotRoot) {
   function buildGreetingAnswer() {
     return {
       text:
-        "Chao ban. Minh co the gioi thieu nhanh ve du an Smart Solar Cleaning dua tren tai lieu trong website.\n" +
-        "Ban co the hoi:\n" +
-        "- Du an nay lam gi?\n" +
-        "- He thong dung cong nghe nao?\n" +
-        "- PLC dong vai tro gi?\n" +
-        "- He thong hoat dong nhu the nao?",
+        "Chào bạn. Mình có thể giới thiệu nhanh về dự án Smart Solar Cleaning dựa trên tài liệu trong website.\n" +
+        "Bạn có thể hỏi:\n" +
+        "- Dự án này làm gì?\n" +
+        "- Hệ thống dùng công nghệ nào?\n" +
+        "- PLC đóng vai trò gì?\n" +
+        "- Hệ thống hoạt động như thế nào?",
       sources: [],
     };
   }
@@ -343,20 +343,20 @@ if (chatbotRoot) {
   function buildFallbackAnswer() {
     return {
       text:
-        "Minh chua tim thay cau tra loi that ro trong tai lieu hien co.\n" +
-        "Ban thu hoi theo cac chu de nay nhe:\n" +
-        "- Tong quan va muc tieu du an\n" +
-        "- Cong nghe AI, YOLO, EfficientNet-B0\n" +
-        "- Vai tro cua PLC Siemens S7\n" +
-        "- Web monitor, desktop va mobile app\n" +
-        "- Quy trinh hoat dong va dieu kien ve sinh",
+        "Mình chưa tìm thấy câu trả lời thật rõ trong tài liệu hiện có.\n" +
+        "Bạn thử hỏi theo các chủ đề này nhé:\n" +
+        "- Tổng quan và mục tiêu dự án\n" +
+        "- Công nghệ AI, YOLO, EfficientNet-B0\n" +
+        "- Vai trò của PLC Siemens S7\n" +
+        "- Web monitor, desktop và mobile app\n" +
+        "- Quy trình hoạt động và điều kiện vệ sinh",
       sources: [],
     };
   }
 
   function formatHighlights(profile, sections) {
     const lines = [];
-    const lead = profile ? profile.lead : `Thong tin chinh tu muc "${sections[0].title}":`;
+    const lead = profile ? profile.lead : `Thông tin chính từ mục "${sections[0].title}":`;
     lines.push(lead);
 
     const mergedHighlights = uniqueItems(
@@ -368,7 +368,7 @@ if (chatbotRoot) {
     });
 
     if (sections[1]) {
-      lines.push(`\nBo sung: xem them o phan "${sections[1].title}".`);
+      lines.push(`\nBổ sung: xem thêm ở phần "${sections[1].title}".`);
     }
 
     return lines.join("\n");
@@ -431,7 +431,7 @@ if (chatbotRoot) {
 
     if (role === "bot") {
       const label = document.createElement("strong");
-      label.textContent = "Tro ly";
+      label.textContent = "Trợ lý";
       bubble.appendChild(label);
     }
 
@@ -479,14 +479,14 @@ if (chatbotRoot) {
     input.value = "";
 
     if (!knowledgeState.ready) {
-      addMessage("bot", knowledgeState.error || "Tai lieu dang duoc nap, ban thu lai sau mot chut nhe.");
+      addMessage("bot", knowledgeState.error || "Tài liệu đang được nạp, bạn thử lại sau một chút nhé.");
       return;
     }
 
-    setStatus("Dang tim trong tai lieu du an...");
+    setStatus("Đang tìm trong tài liệu dự án...");
     const answer = buildAnswer(trimmed);
     addMessage("bot", answer.text, answer.sources);
-    setStatus("San sang tra loi tu tai lieu du an tren website.");
+    setStatus("Sẵn sàng trả lời từ tài liệu dự án trên website.");
   }
 
   launcher.addEventListener("click", () => togglePanel());
@@ -510,7 +510,7 @@ if (chatbotRoot) {
 
   addMessage(
     "bot",
-    "Chao ban. Minh la tro ly gioi thieu du an Smart Solar Cleaning. Minh se tra loi dua tren tai lieu dang co trong website."
+    "Chào bạn. Mình là trợ lý giới thiệu dự án Smart Solar Cleaning. Mình sẽ trả lời dựa trên tài liệu đang có trong website."
   );
 
   updateControls();
